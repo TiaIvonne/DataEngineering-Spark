@@ -1,6 +1,10 @@
 
 import json
+from importlib.metadata import metadata
+from logging.config import dictConfig
+
 from pyspark.sql import DataFrame as DF, functions as F, SparkSession
+from databricks.connect import DatabricksSession
 
 
 class MotorIngesta:
@@ -13,7 +17,12 @@ class MotorIngesta:
         :param config_file:
         """
         self.config = config
-        self.spark = SparkSession.builder.getOrCreate()
+        if self.config["EXECUTION_ENVIRONMENT"] == 'local':
+            self.spark = SparkSession.builder.getOrCreate()
+        else:
+            self.spark = DatabricksSession.builder.getOrCreate()
+
+
 
     def ingesta_fichero(self, json_path: str) -> DF:
         """
@@ -33,12 +42,15 @@ class MotorIngesta:
         # Para incluir también el campo "comment" como metadatos de la columna, podemos hacer:
         # F.col(...).cast(...).alias(..., metadata={"comment": ...})
 
-        flights_day_df = spark.read....
+        flights_day_df = self.spark.read.format("json").option("inferSchema", "true").load(json_path)
 
-        aplanado_df = ...
-        lista_obj_column = [ ... for diccionario in self.config["data_columns"] ]
-        resultado_df = aplanado_df.select(...)
-        return ...
+        aplanado_df = MotorIngesta.aplana_df(flights_day_df)
+        lista_obj_column = [ F.col(diccionario["name"])
+                             .cast(diccionario["type"])
+                             .alias(diccionario["name"], metadata={"comment": diccionario["comment"]})
+                             for diccionario in self.config["data_columns"] ]
+        resultado_df = aplanado_df.select(lista_obj_column)
+        return resultado_df
 
 
     @staticmethod
