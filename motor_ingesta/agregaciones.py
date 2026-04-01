@@ -22,7 +22,7 @@ def aniade_hora_utc(spark: SparkSession, df: DF) -> DF:
     timezones_pd = pd.read_csv(path_timezones)
     timezones_df = spark.createDataFrame(timezones_pd)
 
-    df_with_tz = ...
+    df_with_tz = df.join(timezones_df, df["Origin"] == timezones_df["iata_code"], how="left")
 
 
     # ----------------------------------------

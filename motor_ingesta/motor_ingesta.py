@@ -4,7 +4,7 @@ from importlib.metadata import metadata
 from logging.config import dictConfig
 
 from pyspark.sql import DataFrame as DF, functions as F, SparkSession
-from databricks.connect import DatabricksSession
+
 
 
 class MotorIngesta:
@@ -16,10 +16,10 @@ class MotorIngesta:
         Completar docstring
         :param config_file:
         """
-        self.config = config
         if self.config["EXECUTION_ENVIRONMENT"] == 'local':
             self.spark = SparkSession.builder.getOrCreate()
         else:
+            from databricks.connect import DatabricksSession
             self.spark = DatabricksSession.builder.getOrCreate()
 
 

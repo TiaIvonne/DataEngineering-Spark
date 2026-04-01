@@ -3,6 +3,7 @@ from datetime import timedelta
 from loguru import logger
 
 from pyspark.sql import SparkSession, functions as F
+from motor_ingesta.motor_ingesta import MotorIngesta
 
 
 class FlujoDiario:
@@ -16,8 +17,9 @@ class FlujoDiario:
         # y almacenarlo en self.config. Además, crear la SparkSession si no existiese usando
         # SparkSession.builder.getOrCreate() que devolverá la sesión existente, o creará una nueva si no existe ninguna
 
-        self.spark = None     # sustituye None por lo adecuado para recuperar la SparkSession existente o crear una
-        self.config = None    # sustituye None por lo adecuado para leer el fichero de config como diccionario
+        self.spark = SparkSession.builder.getOrCreate()
+        with open(config_file) as f:
+            self.config = json.load(f)
 
 
     def procesa_diario(self, data_file: str):
@@ -37,8 +39,10 @@ class FlujoDiario:
             # Conviene cachear el DF flights_df así como utilizar el número de particiones indicado en
             # config["output_partitions"]
 
-            motor_ingesta = ...
-            flights_df = ...
+            # Crea objeto
+            motor_ingesta = MotorIngesta(config=self.config)
+            # Llama al metodo ingesta fichero
+            flights_df = motor_ingesta.ingesta_fichero(data_file)
 
             # Paso 1. Invocamos al método para añadir la hora de salida UTC
             flights_with_utc = ...                # reemplaza por la llamada adecuada
