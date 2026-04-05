@@ -6,15 +6,14 @@ from logging.config import dictConfig
 from pyspark.sql import DataFrame as DF, functions as F, SparkSession
 
 
-
 class MotorIngesta:
     """
-    Completar docstring
+    Esta clase procesa un archivo de entrada de tipo json, posteriormente lo aplana y devuelve un dataframe de spark
     """
     def __init__(self, config: dict):
         """
-        Completar docstring
-        :param config_file:
+        Este es el iniciador de la clase MotorIngesta
+        :param config_file: Un archivo de tipo json que contiene las definiciones de estructura del archivo a procesar
         """
         if self.config["EXECUTION_ENVIRONMENT"] == 'local':
             self.spark = SparkSession.builder.getOrCreate()
@@ -26,9 +25,10 @@ class MotorIngesta:
 
     def ingesta_fichero(self, json_path: str) -> DF:
         """
-        Completar docstring
-        :param json_path:
-        :return:
+        Procesa un archivo de tipo json para posteriormente transformarlo en un dataset de tipo spark.
+
+        :param json_path: Un fichero de tipo json que contiene el detalle de los vuelos que sera posteriormente procesado
+        :return: Un dataset de spark que ha sido previamente procesado y aplanado
         """
         # Leemos el JSON como DF, tratando de inferir el esquema, y luego lo aplanamos.
         # Por último nos quedamos con las columnas indicadas en el fichero de configuración,

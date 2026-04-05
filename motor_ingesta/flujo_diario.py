@@ -10,8 +10,8 @@ class FlujoDiario:
 
     def __init__(self, config_file: str):
         """
-        Completa la documentación
-        :param config_file:
+        Iniciador de la clase FlujoDiario
+        :param config_file: Fichero json
         """
         # Leer como diccionario el fichero json indicado en la ruta config_file, usando json.load(f) del paquete json
         # y almacenarlo en self.config. Además, crear la SparkSession si no existiese usando
@@ -24,12 +24,10 @@ class FlujoDiario:
 
     def procesa_diario(self, data_file: str):
         """
-        Completa la documentación
-        :param data_file:
+        Funcion que procesa y agrega columnas adicionales a un dataframe generado a traves del motor de ingesta
+        :param data_file: Archivo de entrada que debe ser procesado con el metodo ingesta fichero de la clase MotorIngesta
         :return:
         """
-
-        # raise NotImplementedError("completa el código de esta función")   # borra esta línea cuando resuelvas
         try:
             # Procesamiento diario: crea un nuevo objeto motor de ingesta con self.config, invoca a ingesta_fichero,
             # después a las funciones que añaden columnas adicionales, y finalmente guarda el DF en la tabla indicada en

@@ -51,7 +51,25 @@ def aniade_hora_utc(spark: SparkSession, df: DF) -> DF:
     #     que ya teníamos en FlightTime
     # (d) Antes de devolver el DF resultante, borra las columnas que estaban en timezones_df, así como la columna
     #     castedHour
-    df_with_flight_time = df_with_tz....
+    df_with_flight_time = (
+        df_with_tz
+            .withColumn(
+            "castedHour",
+            F.lpad(F.col("DepTime").cast("string"), 4, "0")
+        )
+            .withColumn(
+            "FlightTime",
+                F.concat(
+                F.col("FlightDate").cast("string"),
+                    F.lit(" "),
+                    F.col("castedHour").substr(1,2),
+                    F.lit(":"),
+                    F.col("castedHour").substr(3,2)
+            ).cast("timestamp")
+        )
+        .withColumn("FlightTime", F.to_utc_timestamp("FlightTime", "iana_tz"))
+        .drop("iana_tz", "iata_code", "windows_tz", "castedHour")
+    )
 
     return df_with_flight_time
 
@@ -77,7 +95,24 @@ def aniade_intervalos_por_aeropuerto(df: DF) -> DF:
     # El DF resultante de esta función debe ser idéntico al de entrada pero con 3 columnas nuevas añadidas por la
     # derecha, llamadas FlightTime_next, Airline_next y diff_next. Cualquier columna auxiliar debe borrarse.
 
-    w = ...     # ventana
-    df_with_next_flight = ...
+    w = Window.partitionBy("Origin").orderBy("FlightTime")     # ventana
+    df_with_next_flight = (df
+        .withColumn(
+        "next_flight",
+            F.struct(
+                F.col("FlightTime"), F.col("Reporting_Airline"))
+        )
+        .withColumn(
+        "next_flight",
+                F.lag("next_flight", -1).over(w)
+        )
+        .withColumn("FlightTime_next",F.col("next_flight.FlightTime"))
+        .withColumn("Airline_next", F.col("next_flight.Reporting_Airline"))
+        .withColumn(
+            "diff_next",
+            F.col("FlightTime_next").cast("long") - F.col("FlightTime").cast("long")
+        )
+        .drop("next_flight")
+    )
 
     return df_with_next_flight
