@@ -10,3 +10,4 @@ motor_ingesta.egg-info/dependency_links.txt
 motor_ingesta.egg-info/top_level.txt
 motor_ingesta/resources/__init__.py
 motor_ingesta/resources/timezones.csv
+tests/test_ingesta.py
