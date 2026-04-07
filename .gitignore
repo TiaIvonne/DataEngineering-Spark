@@ -1,3 +1,10 @@
 .idea
 *.ipynb_checkpoints
-*pycache*
+__pycache__/
+*.pyc
+dist/
+build/
+*.egg-info/
+venv-databricks/
+venv-tests/
+.env

@@ -31,7 +31,7 @@ class FlujoDiario:
         Funcion que procesa y agrega columnas adicionales a un dataframe generado a traves del motor de ingesta
 
         :param data_file: Archivo de entrada que debe ser procesado con el metodo ingesta fichero de la clase MotorIngesta
-        :return: Un dataframe completo que incluye los proximos vuelos
+        :return: None
         """
         try:
             # Procesamiento diario: crea un nuevo objeto motor de ingesta con self.config, invoca a ingesta_fichero,
