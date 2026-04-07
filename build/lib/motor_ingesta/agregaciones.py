@@ -1,16 +1,16 @@
 from pathlib import Path
-
 from pyspark.sql import SparkSession, DataFrame as DF, functions as F, Window
 import pandas as pd
 
 
 def aniade_hora_utc(spark: SparkSession, df: DF) -> DF:
     """
-    Completa la documentación
-    :param spark:
-    :param df:
-    :param fichero_timezones:
-    :return:
+    Funcion que agrega la zona horaria correspondiente a cada timestamp presente en el set de datos
+
+    :param spark: Spark session
+    :param df:Dataframe original que debe ser utilizado como base de las agregaciones
+    :param fichero_timezones: Archivo de tipo csv que contiene las zonas horarias correspondientes a cada aeropuerto
+    :return: Un nuevo dataframe con la zona horaria agregada.
     """
 
     # Antes de empezar el ejercicio 2, debemos unir a los vuelos la zona horaria del aeropuerto de salida del vuelo,
@@ -76,9 +76,10 @@ def aniade_hora_utc(spark: SparkSession, df: DF) -> DF:
 
 def aniade_intervalos_por_aeropuerto(df: DF) -> DF:
     """
-    Completa la documentación
-    :param df:
-    :return:
+    Funcion que procesa un dataframe y agrega la informacion del vuelo que despega despues, en su mismo aeropuerto de origen.
+
+    :param df:Dataframe base que debe ser utlizado como base de las agregaciones
+    :return: Un nuevo dataframe que contiene cada vuelo con su correspondente vuelo siguiente
     """
     # ----------------------------------------
     # FUNCIÓN PARA EL EJERCICIO 3 (2 puntos)

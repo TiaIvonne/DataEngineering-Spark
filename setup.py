@@ -8,7 +8,7 @@ setup(
     description="Motor de ingesta para el curso de Spark",
     long_description="Motor de ingesta para el curso de Spark",
     long_description_content_type="text/markdown",
-    url="https://github.com/nombrealumno",
+    url="https://github.com/TiaIvonne",
     python_requires=">=3.8",
     packages=find_packages(),
     package_data={"motor_ingesta": ["resources/*.csv"]}

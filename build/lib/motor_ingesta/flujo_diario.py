@@ -11,7 +11,7 @@ class FlujoDiario:
     def __init__(self, config_file: str):
         """
         Iniciador de la clase FlujoDiario
-        :param config_file: Fichero json
+        :param config_file: Fichero json de configuracion
         """
         # Leer como diccionario el fichero json indicado en la ruta config_file, usando json.load(f) del paquete json
         # y almacenarlo en self.config. Además, crear la SparkSession si no existiese usando
@@ -29,6 +29,7 @@ class FlujoDiario:
     def procesa_diario(self, data_file: str):
         """
         Funcion que procesa y agrega columnas adicionales a un dataframe generado a traves del motor de ingesta
+
         :param data_file: Archivo de entrada que debe ser procesado con el metodo ingesta fichero de la clase MotorIngesta
         :return: Un dataframe completo que incluye los proximos vuelos
         """

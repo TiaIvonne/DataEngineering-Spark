@@ -1,4 +1,5 @@
 {
+  "EXECUTION_ENVIRONMENT": "local",
   "data_columns": [
     {
       "name": "nombre",
