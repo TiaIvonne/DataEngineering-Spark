@@ -9,7 +9,6 @@ def aniade_hora_utc(spark: SparkSession, df: DF) -> DF:
 
     :param spark: Spark session
     :param df:Dataframe original que debe ser utilizado como base de las agregaciones
-    :param fichero_timezones: Archivo de tipo csv que contiene las zonas horarias correspondientes a cada aeropuerto
     :return: Un nuevo dataframe con la zona horaria agregada.
     """
 

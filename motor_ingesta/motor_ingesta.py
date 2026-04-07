@@ -1,8 +1,3 @@
-
-import json
-from importlib.metadata import metadata
-from logging.config import dictConfig
-
 from pyspark.sql import DataFrame as DF, functions as F, SparkSession
 
 
@@ -13,7 +8,7 @@ class MotorIngesta:
     def __init__(self, config: dict):
         """
         Este es el iniciador de la clase MotorIngesta
-        :param config_file: Un archivo de tipo json que contiene las definiciones de estructura del archivo a procesar
+        :param config: Un archivo de tipo json que contiene las definiciones de estructura del archivo a procesar
         """
         self.config = config
         if self.config["EXECUTION_ENVIRONMENT"] == 'local':
